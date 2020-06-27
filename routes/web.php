@@ -11,6 +11,10 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'PagesController@index');
+Route::get('/checkout', 'PagesController@checkout');
+Route::get('/login', 'UsersController@login');
+Route::get('/admin', 'ProductsController@index');
+Route::get('/admin/products', 'ProductsController@products');
+Route::get('/admin/users', 'UsersController@index');
+Route::get('/{slug}', 'PagesController@product');
