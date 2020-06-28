@@ -38,15 +38,19 @@
 
                     <!-- right -->
                     <ul class="top-links list-inline float-right">
-                        <li class="text-welcome hidden-xs-down">Welcome to Smarty, <strong>John Doe</strong></li>
+                        @if(Auth::user())
+                        <li class="text-welcome hidden-xs-down">Welcome, <strong> {{ Auth::user()->name }}</strong></li>
                         <li>
                             <a class="dropdown-toggle no-text-underline" data-toggle="dropdown" href="#"><i class="fa fa-user hidden-xs-down"></i> MY ACCOUNT</a>
                             <ul class="dropdown-menu float-right">
-
-                                <li><a tabindex="-1" href="#"><i class="glyphicon glyphicon-off"></i> LOGOUT</a></li>
+                                <li><a tabindex="-1" href="/admin"><i class="glyphicon glyphicon-align-justify"></i> ADMIN</a></li>
+                                <li><a tabindex="-1" href="/logout"><i class="glyphicon glyphicon-off"></i> LOGOUT</a></li>
                             </ul>
                         </li>
+                        @endif
+                        @if(!Auth::user())
                         <li class="hidden-xs-down"><a href="/login">LOGIN</a></li>
+                        @endif
                         <li class=""><a href="/checkout">
                                 <span class="badge badge-aqua ">2</span>
                                 <i class="fa fa-shopping-cart"></i> Cart
