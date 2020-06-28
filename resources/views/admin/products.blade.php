@@ -30,7 +30,7 @@
                             <th>Description</th>
                             <th>Price</th>
                             <th>Status</th>
-
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -38,13 +38,17 @@
                         <tr>
                             <td>
                                 @if($product->image)
-                                <img src="{{ $product->image->getUrl() }}" />
+                                <img style="width: 300px; height: 450px;" src="{{ $product->image->getUrl() }}" />
                                 @endif
                             </td>
                             <td>{{ $product->name }}</td>
                             <td>{{ $product->description }}</td>
-                            <td>{{ $product->price }}</td>
-                            <td>{{ ($product->status?'Active':'Inactive') }}</td>
+                            <td style="text-align: right;">{{ number_format($product->price,2) }}</td>
+                            <td style="text-align: center;">{{ ($product->status?'Active':'Inactive') }}</td>
+                            <td style="width: 200px; text-align: center;" >                                
+                                <button class="btn btn-primary" onclick="edit(<?= $product->id ?>, '<?= $product->name ?>', '<?= $product->description ?>',<?= $product->status ?>,<?= $product->price ?>, '<?= ($product->image ? $product->image->getUrl() : '') ?>')">Edit</button>    
+                                <button class="btn btn-danger" onclick="deleteProduct(<?= $product->id ?>)">Delete</button>
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -55,7 +59,7 @@
 
 
 
-<div class="modal" id="mdUser" tabindex="-1" role="dialog">
+<div class="modal" id="mdProduct" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -65,31 +69,27 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="frmRegUs">
+                <form id="frmRegProd">
                     <div class="row" id="templates">
                         <div class="col-xs-12">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Name</label>
+                                        <input id="txtID" name="id" type="hidden" class="form-control" />
                                         <input id="txtName" name="name" class="form-control" />
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Description</label>
-                                        <input  id="txtDescription" name="description" class="form-control" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Price</label>
                                         <input id="txtPrice" type="number" name="price" class="form-control" />
                                     </div>
                                 </div>
-                                <div class="col-md-6" id="dropZone">
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12" id="dropZone">
                                     <div class="table table-striped files" id="previews">
 
                                         <div id="template" class="file-row">
@@ -111,6 +111,29 @@
 
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Description</label>
+                                        <textarea rows="3" style="resize: none;"  id="txtDescription" name="description" class="form-control" ></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" id="divStatus" style="display: none">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="custom-control custom-checkbox">
+                                            <input class="custom-control-input" type="checkbox" id="chStatus" value="1">
+                                            <label for="chStatus" class="custom-control-label">Active</label>
+                                        </div>
+                                    </div>
+                                </div>    
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <img id="imgPreview" width="200" />
+                                    </div>
+                                </div>   
                             </div>                            
                         </div>
                     </div>
@@ -139,11 +162,27 @@
                 'excelHtml5',
                 'csvHtml5',
                 'pdfHtml5'
-            ]
+            ],
+            "paging": true
         });
-        $(".dt-buttons").prepend("<button class='dt-button buttons-html5' data-toggle='modal' data-target='#mdUser' data-keyboard='false' data-backdrop='static' tabindex='0' aria-controls='dtUsers' type='button'><span>Add</span></button>");
+        $(".dt-buttons").prepend("<button class='dt-button buttons-html5' data-toggle='modal' data-target='#mdProduct' data-keyboard='false' data-backdrop='static' tabindex='0' aria-controls='dtUsers' type='button'><span>Add</span></button>");
 
-
+        $("#frmRegProd").validate({
+            rules: {
+                name: {
+                    required: true,
+                    maxlength: 50
+                },
+                description: {
+                    required: true,
+                    maxlength: 1200
+                },
+                price: {
+                    required: true,
+                    number: true
+                }
+            }
+        });
 
         var previewNode = document.querySelector("#template");
         previewNode.id = "";
@@ -178,6 +217,10 @@
             //document.querySelector("#total-progress").style.opacity = "1";
             // And disable the start button
             //file.previewElement.querySelector(".start").setAttribute("disabled", "disabled");
+            if ($("#txtID").val() != "" && $("#txtID").val() > 0) {
+                formData.append("id", $("#txtID").val());
+                formData.append("status", ($("#chStatus").is(":checked") ? 1 : 0));
+            }
             formData.append("name", $("#txtName").val());
             formData.append("description", $("#txtDescription").val());
             formData.append("price", $("#txtPrice").val());
@@ -186,16 +229,129 @@
         // Hide the total progress bar when nothing's uploading anymore
         myDropzone.on("queuecomplete", function (progress) {
             //document.querySelector("#total-progress").style.opacity = "0";
+            $("#mdProduct").modal("hide");
+            Swal.fire({
+                title: 'Success',
+                text: "Product was saved",
+                icon: 'success',
+                showCancelButton: false,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ok'
+            }).then((result) => {
+                if (result.value) {
+                    location.reload();
+                }
+            })
         });
 
         // Setup the buttons for all transfers
         // The "add files" button doesn't need to be setup because the config
         // `clickable` has already been specified.
         document.querySelector("#btnSave").onclick = function () {
-            myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED));
+            if ($("#frmRegProd").valid()) {
+                if (myDropzone.getFilesWithStatus(Dropzone.ADDED).length > 0) {
+                    myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED));
+                } else {
+                    if ($("#txtID").val() != "" && $("#txtID").val() > 0 && $("#imgPreview").attr("src") != "") {
+                        var data = {
+                            id: $("#txtID").val(),
+                            status: ($("#chStatus").is(":checked") ? 1 : 0),
+                            name: $("#txtName").val(),
+                            description: $("#txtDescription").val(),
+                            price: $("#txtPrice").val()
+                        };
+                        axios.post('/api/products', data)
+                                .then(function (response) {
+                                    Swal.fire({
+                                        title: 'Success',
+                                        text: "User was saved",
+                                        icon: 'success',
+                                        showCancelButton: false,
+                                        confirmButtonColor: '#3085d6',
+                                        cancelButtonColor: '#d33',
+                                        confirmButtonText: 'Ok'
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            location.reload();
+                                        }
+                                    })
+                                })
+                                .catch(function (error) {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Oops...',
+                                        text: 'Something went wrong!'
+                                    })
+                                    $(buttons).attr("disabled", false);
+                                });
+                    } else {
+                        Swal.fire("Select a image.")
+                    }
+                }
+            }
         };
 
+        $('#mdProduct').on('shown.bs.modal', function () {
+            $("#txtID").val("");
+            $("#txtName").val("");
+            $("#txtDescription").val("");
+            $("#chStatus").attr("checked", false);
+            $("#txtPrice").val(0);
+            $("#imgPreview").attr("src", "");
+            $("#divStatus").hide();
+        });
+
     });
+
+    function edit(id, name, description, status, price, img) {
+        $("#mdProduct").modal();
+        $("#txtID").val(id);
+        $("#txtName").val(name);
+        $("#txtDescription").val(description);
+        $("#chStatus").attr("checked", status);
+        $("#txtPrice").val(price);
+        $("#imgPreview").attr("src", img);
+        $("#divStatus").show();
+    }
+
+    function deleteProduct(id) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.value) {
+                axios.get('/api/products/' + id)
+                        .then(function (response) {
+                            Swal.fire({
+                                title: 'Deleted',
+                                text: "Your product has been deleted.",
+                                icon: 'success',
+                                showCancelButton: false,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText: 'Ok'
+                            }).then((result) => {
+                                if (result.value) {
+                                    location.reload();
+                                }
+                            });
+                        })
+                        .catch(function (error) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'Something went wrong!'
+                            });
+                        });
+            }
+        });
+    }
 </script>
 
 @endsection

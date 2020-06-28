@@ -146,7 +146,8 @@
                 'excelHtml5',
                 'csvHtml5',
                 'pdfHtml5'
-            ]
+            ],
+            "paging": true
         });
         $(".dt-buttons").prepend("<button class='dt-button buttons-html5' data-toggle='modal' data-target='#mdUser' data-keyboard='false' data-backdrop='static' tabindex='0' aria-controls='dtUsers' type='button'><span>Add</span></button>");
         $("#frmRegUs").validate({
@@ -185,6 +186,18 @@
                     maxlength: 50
                 }
             }
+        });
+
+
+        $('#mdUser').on('shown.bs.modal', function () {
+            $("#txtName").val("");
+            $("#txtEmail").val("");
+            $("#txtPassword").val("");
+        });
+        $('#mdUserEdit').on('shown.bs.modal', function () {
+            $("#txtNameEdit").val("");
+            $("#txtEmailEdit").val("");
+            $("#txtIDUser").val("");
         });
     });
     function save() {
@@ -236,10 +249,10 @@
                 });
     }
     function edit(id, name, email) {
+        $("#mdUserEdit").modal({backdrop: 'static', keyboard: false});
         $("#txtNameEdit").val(name);
         $("#txtEmailEdit").val(email);
-        $("#txtIDUser").val(id);
-        $("#mdUserEdit").modal({backdrop: 'static', keyboard: false});
+        $("#txtIDUser").val(id);        
     }
 
     function deleteUser(id) {

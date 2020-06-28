@@ -23,4 +23,6 @@ class Product extends Model implements HasMedia {
         return $this->getMedia("files")->last();
     }
 
+   
+
 }

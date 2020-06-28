@@ -34,6 +34,7 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
         <script src="/assets/js/axios.min.js"></script>
         <script src="/assets/js/jquery.validate.min.js"></script>
+        <script src="/assets/js/plugins/owl-carousel/owl.carousel.min.js"></script>
     </head>
     <body class="hold-transition sidebar-mini">
         <div class="wrapper">

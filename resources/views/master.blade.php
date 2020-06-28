@@ -24,6 +24,21 @@
         <link href="assets/css/header-1.css" rel="stylesheet" type="text/css" />
         <link href="assets/css/layout-shop.css" rel="stylesheet" type="text/css" />
         <link href="assets/css/color_scheme/green.css" rel="stylesheet" type="text/css" id="color_scheme" />
+
+        <!-- JAVASCRIPT FILES -->
+        <script>var plugin_path = 'assets/plugins/';</script>
+        <script src="assets/plugins/jquery/jquery-3.3.1.min.js"></script>
+
+        <script src="assets/js/scripts.js"></script>
+
+
+
+        <!-- PAGE LEVEL SCRIPTS -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+        <script src="assets/js/view/demo.shop.js"></script>
+        <script src="/assets/js/axios.min.js"></script>
+       
+        <script src="assets/js/shopping_cart.js"></script>
     </head>
 
 
@@ -52,7 +67,7 @@
                         <li class="hidden-xs-down"><a href="/login">LOGIN</a></li>
                         @endif
                         <li class=""><a href="/checkout">
-                                <span class="badge badge-aqua ">2</span>
+                                <span id="countCart" class="badge badge-aqua ">2</span>
                                 <i class="fa fa-shopping-cart"></i> Cart
                             </a></li>
                     </ul>
@@ -229,16 +244,9 @@
             </div>
         </div><!-- /PRELOADER -->
 
+        <script>
+            countCart();
+        </script>
 
-        <!-- JAVASCRIPT FILES -->
-        <script>var plugin_path = 'assets/plugins/';</script>
-        <script src="assets/plugins/jquery/jquery-3.3.1.min.js"></script>
-
-        <script src="assets/js/scripts.js"></script>
-
-
-
-        <!-- PAGE LEVEL SCRIPTS -->
-        <script src="assets/js/view/demo.shop.js"></script>
     </body>
 </html>
