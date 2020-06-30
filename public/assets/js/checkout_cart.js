@@ -177,6 +177,13 @@ function saveChecout() {
         document.getElementById("frmCheckOut").reset();
         oPVM.lproducts([]);
         clearCart();
-        Swal.fire("Success!!");
+        Swal.fire(
+            'Success!',
+            'Your order will arrive soon!',
+            'success'
+          ).then((result) => {
+                location.href="/";            
+          });
+         
     }
 }

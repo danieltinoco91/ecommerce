@@ -71,22 +71,31 @@
                             <!-- Add icons to the links using the .nav-icon class
                                  with font-awesome or any other icon font library -->
                             <li class="nav-item ">
-                                <a href="/admin/users" class="nav-link">
+                                <a href="/admin/users" class="nav-link <?= (Route::getCurrentRoute()->getActionName()=='App\Http\Controllers\UsersController@index'?'active':'' )?>">
                                     <i class="nav-icon fas fa-users"></i>
                                     <p>
-                                        Usuarios
+                                        Users
                                     </p>
                                 </a>
 
                             </li>
                             <li class="nav-item">
-                                <a href="/admin/products" class="nav-link">
+                                <a href="/admin/products" class="nav-link <?= (Route::getCurrentRoute()->getActionName()=='App\Http\Controllers\ProductsController@products'?'active':'' )?>">
                                     <i class="nav-icon fas fa-th"></i>
                                     <p>
-                                        Productos
+                                        Products
                                     </p>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a href="/logout" class="nav-link">
+                                    <i class="nav-icon fas fa-power-off"></i>
+                                    <p>
+                                        Logout
+                                    </p>
+                                </a>
+                            </li>
+                            
 
                         </ul>
                     </nav>

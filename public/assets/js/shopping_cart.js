@@ -1,3 +1,4 @@
+
 function countCart() {
     var lcart = localStorage.getItem("shopping_cart");
     var lst = [];
@@ -21,6 +22,24 @@ function addCart(item) {
     });
     if (ok) {
         lst.push(item);
+        toastr.options = {
+            "closeButton": false,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+          }
+          toastr["success"]("The product was add to the cart","Success")
     }
     $("#countCart").text(lst.length);
     localStorage.setItem("shopping_cart", JSON.stringify(lst));

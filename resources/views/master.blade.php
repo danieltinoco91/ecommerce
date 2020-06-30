@@ -24,7 +24,7 @@
         <link href="assets/css/header-1.css" rel="stylesheet" type="text/css" />
         <link href="assets/css/layout-shop.css" rel="stylesheet" type="text/css" />
         <link href="assets/css/color_scheme/green.css" rel="stylesheet" type="text/css" id="color_scheme" />
-
+        <link href="assets/css/toastr.min.css" rel="stylesheet" type="text/css" />
         <!-- JAVASCRIPT FILES -->
         <script>var plugin_path = 'assets/plugins/';</script>
         <script src="assets/plugins/jquery/jquery-3.3.1.min.js"></script>
@@ -36,6 +36,7 @@
         <!-- PAGE LEVEL SCRIPTS -->
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
         <script src="assets/js/view/demo.shop.js"></script>
+        <script src="assets/js/toastr.min.js"></script>
         <script src="/assets/js/axios.min.js"></script>
        
         <script src="assets/js/shopping_cart.js"></script>

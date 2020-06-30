@@ -286,7 +286,7 @@
                                     $(buttons).attr("disabled", false);
                                 });
                     } else {
-                        Swal.fire("Select a image.")
+                        Swal.fire("Select an image.")
                     }
                 }
             }
