@@ -193,11 +193,12 @@
             url: "/api/products", // Set the url
             thumbnailWidth: 80,
             thumbnailHeight: 80,
-            parallelUploads: 20,
+            parallelUploads: 1,
             previewTemplate: previewTemplate,
             autoQueue: false, // Make sure the files aren't queued until manually added
             previewsContainer: "#previews", // Define the container to display the previews
             clickable: ".fileinput-button",
+            acceptedFiles: ".jpeg,.jpg,.png,.gif"
         });
 
         myDropzone.on("addedfile", function (file) {
