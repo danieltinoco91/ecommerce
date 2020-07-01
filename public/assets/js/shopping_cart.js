@@ -39,7 +39,7 @@ function addCart(item) {
             "showMethod": "fadeIn",
             "hideMethod": "fadeOut"
           }
-          toastr["success"]("The product was add to the cart","Success")
+          toastr["success"]("The product was added to the cart","Success")
     }
     $("#countCart").text(lst.length);
     localStorage.setItem("shopping_cart", JSON.stringify(lst));
