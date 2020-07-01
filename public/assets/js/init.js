@@ -16,7 +16,7 @@ function ProductVM() {
     var self = this;
     self.lproducts = ko.observableArray([]);
     self.last_products = ko.observableArray();
-    axios.get('/api/products/').then(function (response) {
+    axios.get('/api/media/').then(function (response) {
         if (response.data.products) {
             try {
                 self.lproducts($.map(response.data.products, function (prod) {
